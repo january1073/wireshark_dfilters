@@ -1,0 +1,61 @@
+# Wireshark Display Filters
+
+"ARP Spoofing" arp.duplicate-address-detected
+"ARP Spoofing II" arp.src.hw_mac != eth.src
+"Beaconing Behavior" frame.time_delta < 60 and frame.time_delta > 55
+"Clear-Text Credentials" http.request and (http.authorization or http.proxy_authorization)
+"Common Malware Ports" tcp.port in {4444, 5554, 6667, 12345, 31337}
+"Curl User-Agent" http.user_agent contains "curl"
+"DNS Anomalies" dns.flags.rcode != 0
+"DNS Anomalies II" dns.qry.name.len > 50 and dns.qry.type == 16
+"DNS Anomalies III" dns.qry.type == 16
+"DNS Anomalies IV" dns.qry.name matches "[a-z0-9]{20,}"
+"DNS Anomalies V" dns and not udp.port == 53
+"DNS Anomalies VI" dns.resp.len > 100
+"DoS Attacks" tcp.flags.syn == 1 and tcp.flags.ack == 0 and ip.dst == X.X.X.X
+"DoS Attacks II" icmp.type == 8 and ip.dst == X.X.X.X
+"EternalBlue Exploit" dcerpc.cn_call_id == 0x1a
+"External SSH Brute Force" tcp.flags.syn == 1 and tcp.flags.ack == 0 and tcp.port == 22 and ip.src != 192.168.0.0/16
+"File Transfers" ftp-data
+"File Transfers II" http.content_type contains "multipart/form-data"
+"File Transfers III" http.request.method == "POST"
+"FIN Scan" tcp.flags.fin == 1 and tcp.flags.ack == 0
+"HTTP Authentication" http.authorization contains "Basic"
+"HTTP Authentication II" http.authorization contains "NTLM"
+"HTTP Authentication III" http.www_authenticate
+"HTTP Suspicious Headers" http.header contains "X-Forwarded-For"
+"HTTP Suspicious Headers II" http.referer contains "127.0.0.1"
+"HTTP Suspicious Methods" http.request.method in {"PUT", "DELETE", "TRACE", "CONNECT"}
+"ICMP Tunneling" icmp.type == 8 and data.len > 64
+"Large DNS Responses" dns.resp.len > 100
+"LDAP/AD Recon" ldap.message == 0 or ldap.bindRequest
+"LDAP/AD Recon II" ldap.searchRequest
+"Low TTL Values" ip.ttl < 10
+"Malware & C2" tcp.port == 4444
+"Password Spray" ntlmssp.auth.username and (ntlmssp.ntlmv2.response.len > 0 or ntlmssp.auth.lmresponse.len > 0)
+"PHP Parameter Requests" http.request.uri contains ".php?"
+"Port Scanning" tcp.flags.syn == 1 and tcp.flags.ack == 0
+"Port Scanning II" tcp.flags.fin == 1 and tcp.flags.ack == 0
+"Port Scanning III" tcp.flags == 0x29
+"Remote Service Control" dcerpc.cn_iface == "367abb81-9844-35f1-ad32-98f038001003"
+"SMB Authentication" ntlmssp.auth.username
+"SMB Authentication II" smb.cmd == 0x73
+"SMB Authentication III" smb2.cmd == 1
+"SMB Exploits" smb.cmd == 37
+"SMB Exploits II" smb.flags.response == 0 and smb.flags.error_code != 0
+"SMB Lateral Movement" smb.tree == "\\\\*\\IPC$"
+"SMTP Attachments" smtp.attachment.filename matches "\.(exe|js|scr|vbs|jar)$"
+"SMTP Login Attempts" smtp.auth.username
+"SYN Scan" tcp.flags.syn == 1 and tcp.flags.ack == 0
+"SSH Authentication Failures" ssh.message_code == 51
+"SSH Brute Force" tcp.flags.syn == 1 and tcp.flags.ack == 0 and tcp.port == 22
+"SSL Certificates" ssl.handshake.certificate
+"SSL/TLS Alerts" ssl.alert
+"SSL on Non-Standard Ports" ssl.handshake.type == 2 and !(tcp.port == 443)
+"Suspicious File Downloads" http.content_type contains "application/x-msdownload"
+"Suspicious File Downloads II" http.request.uri contains "base64"
+"Suspicious SMB Traffic" smb.flags.response == 0 and smb.flags.error_code != 0
+"Suspicious User-Agents" http.user_agent matches "(sqlmap|nikto|nmap|acunetix|fuzz|dirbuster)"
+"Tor Traffic Detection" ip.geoip.country == "A1"
+"WebShell Activity" http.request.uri contains "cmd=" or http.request.uri contains "exec=" or http.request.uri contains "shell="
+"XMAS Scan" tcp.flags == 0x29

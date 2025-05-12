@@ -43,7 +43,7 @@
 "SMB Authentication III" smb2.cmd == 1
 "SMB Exploits" smb.cmd == 37
 "SMB Exploits II" smb.flags.response == 0 and smb.flags.error_code != 0
-"SMB Lateral Movement" smb.tree == "\\\\*\\IPC$"
+"SMB Lateral Movement" smb.tree_share == "IPC$"
 "SMTP Attachments" smtp.attachment.filename matches "\.(exe|js|scr|vbs|jar)$"
 "SMTP Login Attempts" smtp.auth.username
 "SYN Scan" tcp.flags.syn == 1 and tcp.flags.ack == 0
